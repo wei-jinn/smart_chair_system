@@ -13,4 +13,16 @@
 
 Route::get('/', function () {
     return view('welcome');
+//    return "This is the main page";
+});
+
+Route::get('/index', function () {
+    return view('index');
+
+});
+
+Route::get('/run', 'WhiteboardController@run');
+Route::get('/show', 'WhiteboardController@show');
+Route::get('/hello', function () {
+    return "Hello again";
 });
