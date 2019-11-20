@@ -1,5 +1,6 @@
 var PORT = 8090; //Set port for the app
 var accessToken = ""; //Can be set here or as start parameter (node server.js --accesstoken=MYTOKEN)
+var whiteboardToken ="abc"; //abcdef
 var disableSmallestScreen = false; //Can be set to true if you dont want to show (node server.js --disablesmallestscreen=true)
 var webdav = false; //Can be set to true if you want to allow webdav save (node server.js --webdav=true)
 
@@ -31,7 +32,15 @@ app.set('views', __dirname + '/resources/views');//add
 // app.get('/', function(req, res){exec("php whiteboard.blade.php", function (error, stdout, stderr) {res.send(stdout);});});
 
 var exec = require("child_process").exec;
-app.get('/', function(req, res){exec("wget -q -O - http://whiteboard.test:3000/show", function (error, stdout, stderr) {res.send(stdout);});});
+// app.get('/', function(req, res){exec("wget -q -O - http://whiteboard.test:3000/show", function (error, stdout, stderr) {res.send(stdout);});});
+app.get('/', function(req, res){
+
+
+
+    exec("wget -q -O - http://whiteboard.test:3000/show",
+        function (error, stdout, stderr) {res.send(stdout);
+    });
+});
 
 
 var server = require('http').Server(app);
@@ -70,13 +79,43 @@ if (webdav) {
     console.log("Webdav save is enabled!");
 }
 
+// app.get('/loadwhiteboard', function (req, res) {
+//     var wid = req["query"]["wid"];
+//     var at = req["query"]["at"]; //accesstoken
+//     if (accessToken === "" || accessToken == at) {
+//         var ret = s_whiteboard.loadStoredData(wid);
+//         res.send(ret);
+//         res.end();
+//     } else {
+//         res.status(401);  //Unauthorized
+//         res.end();
+//     }
+// });
+
 app.get('/loadwhiteboard', function (req, res) {
     var wid = req["query"]["wid"];
-    var at = req["query"]["at"]; //accesstoken
+    var at = req["query"]["at"];//accesstoken
+    var wt = req["query"]["wt"];
+
+    const axios = require('axios');
+    // import axios from 'axios';
+    axios.get('http://whiteboard.test:3000/verifytoken/'+ wid +'/' + wt)
+    // axios.get('http://whiteboard.test:3000/verifytoken?whiteboardid='+ wid +'&whiteboardtoken=' + wt)
+        .then(function (response) {
+            console.log(response.data);
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+
+
     if (accessToken === "" || accessToken == at) {
-        var ret = s_whiteboard.loadStoredData(wid);
-        res.send(ret);
-        res.end();
+        if(whiteboardToken == wt){
+            var ret = s_whiteboard.loadStoredData(wid);
+            res.send(ret);
+            res.end();
+        }
+
     } else {
         res.status(401);  //Unauthorized
         res.end();
@@ -224,6 +263,18 @@ io.on('connection', function (socket) {
         if (accessToken === "" || accessToken == content["at"]) {
             socket.broadcast.to(whiteboardId).emit('drawToWhiteboard', content); //Send to all users in the room (not own socket)
             s_whiteboard.handleEventsAndData(content); //save whiteboardchanges on the server
+            // var data = JSON.parse(content);
+            // const axios = require('axios');
+            // // import axios from 'axios';
+            // axios.put('http://whiteboard.test:3000/whiteboard/'+ wid +'/' + wt)
+            // // axios.get('http://whiteboard.test:3000/verifytoken?whiteboardid='+ wid +'&whiteboardtoken=' + wt)
+            //     .then(function (response) {
+            //         console.log(response.data);
+            //     })
+            //     .catch(function (error) {
+            //         console.log(error);
+            //     })
+
         } else {
             socket.emit('wrongAccessToken', true);
         }

@@ -5,6 +5,9 @@
     <title>Online Whiteboard</title>
 
     <!--- JS References -!-->
+{{--    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.dev.js"></script>--}}
+{{--    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>--}}
+{{--    <script type="text/javascript" src="./js/require.js"></script>--}}
     <script type="text/javascript" src="./js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="./js/jquery-ui.min.js"></script>
     <script type="text/javascript" src="./js/fontawseome5.8.1.min.js"></script>

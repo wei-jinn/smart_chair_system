@@ -1,10 +1,13 @@
+
 var whiteboardId = getQueryVariable("whiteboardid");
 whiteboardId = whiteboardId || "myNewWhiteboard";
 var myUsername = getQueryVariable("username");
 var accessToken = getQueryVariable("accesstoken");
+var whiteboardToken = getQueryVariable("whiteboardtoken");//abcdef
 myUsername = myUsername || "unknown" + (Math.random() + "").substring(2, 6);
 accessToken = accessToken || "";
 var accessDenied = false;
+
 
 var url = document.URL.substr(0, document.URL.lastIndexOf('/'));
 var signaling_socket = null;
@@ -13,6 +16,7 @@ var subdir = "";
 for (var i = 3; i < urlSplit.length; i++) {
     subdir = subdir + '/' + urlSplit[i];
 }
+
 if (subdir != "") {
     signaling_socket = io("", { "path": subdir + "/socket.io" }); //Connect even if we are in a subdir behind a reverse proxy
 } else {
@@ -59,7 +63,28 @@ $(document).ready(function () {
     });
 
     // request whiteboard from server
-    $.get(subdir + "/loadwhiteboard", { wid: whiteboardId, at: accessToken }).done(function (data) {
+    // $.get(subdir + "/loadwhiteboard", { wid: whiteboardId, at: accessToken, wt: whiteboardToken }).done(function (data) {
+    //     whiteboard.loadData(data)
+    // });
+
+    // const axios = require('axios');
+    // // import axios from 'axios';
+    // axios.get('http//whiteboard.test:3000/verifytoken', {
+    //     params: {
+    //         wid : whiteboardId,
+    //         wt : whiteboardToken
+    //     }
+    // })
+    //     .then(function (response) {
+    //         console.log(response);
+    //     })
+    //     .catch(function (error) {
+    //         console.log(error);
+    //     })
+
+
+    //request whiteboard from server
+    $.get(subdir + "/loadwhiteboard", { wid: whiteboardId, wt: whiteboardToken }).done(function (data) {
         whiteboard.loadData(data)
     });
 
@@ -156,6 +181,10 @@ $(document).ready(function () {
     $("#saveAsJSONBtn").click(function () {
         var imgData = whiteboard.getImageDataJson();
 
+
+
+
+
         var w = window.open('about:blank'); //Firefox will not allow downloads without extra window
         setTimeout(function () { //FireFox seems to require a setTimeout for this to work.
             var a = document.createElement('a');
@@ -172,7 +201,7 @@ $(document).ready(function () {
         if ($(".webdavUploadBtn").length > 0) {
             return;
         }
-        
+
         var webdavserver = localStorage.getItem('webdavserver') || ""
         var webdavpath = localStorage.getItem('webdavpath') || "/"
         var webdavusername = localStorage.getItem('webdavusername') || ""
