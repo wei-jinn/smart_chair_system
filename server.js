@@ -17,6 +17,7 @@ const { createClient } = require("webdav");
 
 var s_whiteboard = require("./s_whiteboard.js");
 
+
 var app = express();
 app.use(express.static(__dirname + '/resources'));
 // app.use(express.static(__dirname + '/resources', {index: '/views/index.html'}));
@@ -113,7 +114,21 @@ app.get('/loadwhiteboard', function (req, res) {
         if(whiteboardToken == wt){
             var ret = s_whiteboard.loadStoredData(wid);
             res.send(ret);
+            console.log(ret); //abcdef
+
+            // params = ret;
+            // const headers = {
+            //     'Content-Type': 'application/json'}
+            //
+            // axios.post('http://whiteboard.test:3000/getsaveddata', params,{
+            //     headers : headers
+            // })
+            //     .then(resp => console.log(resp))
+            //     .catch(error => console.log(error));
+
+
             res.end();
+
         }
 
     } else {
@@ -263,9 +278,16 @@ io.on('connection', function (socket) {
         if (accessToken === "" || accessToken == content["at"]) {
             socket.broadcast.to(whiteboardId).emit('drawToWhiteboard', content); //Send to all users in the room (not own socket)
             s_whiteboard.handleEventsAndData(content); //save whiteboardchanges on the server
+
+
+
+            // var imgData = whiteboard.getImageDataJson();
+
+
+
             // var data = JSON.parse(content);
+
             // const axios = require('axios');
-            // // import axios from 'axios';
             // axios.put('http://whiteboard.test:3000/whiteboard/'+ wid +'/' + wt)
             // // axios.get('http://whiteboard.test:3000/verifytoken?whiteboardid='+ wid +'&whiteboardtoken=' + wt)
             //     .then(function (response) {
@@ -275,10 +297,17 @@ io.on('connection', function (socket) {
             //         console.log(error);
             //     })
 
+            //
+            // var sendObj = [];
+            //     sendObj.push(JSON.parse(JSON.stringify(content)));
+            //     // return ;
+            // console.log(JSON.stringify(sendObj));
         } else {
             socket.emit('wrongAccessToken', true);
         }
     });
+
+
 
     socket.on('joinWhiteboard', function (content) {
         content = escapeAllContentStrings(content);

@@ -50,4 +50,15 @@ class WhiteboardAccessController extends Controller
         return "Test Whiteboard Access Controller";
     }
 
+    public function getSavedData(Request $request){
+
+        if($request){
+            return "Request sent is not null";
+        }
+        else{
+            return "request sent failed";
+        }
+
+    }
+
 }

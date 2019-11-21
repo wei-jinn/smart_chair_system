@@ -14,6 +14,7 @@
 
     <script type="text/javascript" src="./js/whiteboard.js"></script>
     <script type="text/javascript" src="./js/main.js"></script>
+{{--    <script type="text/javascript" src="/./server.js"></script>--}}
 
     <!--- CSS References -!-->
     <link rel="stylesheet" href="./css/jquery-ui.min.css">

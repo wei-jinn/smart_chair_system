@@ -180,21 +180,29 @@ $(document).ready(function () {
     // save image to json containing steps
     $("#saveAsJSONBtn").click(function () {
         var imgData = whiteboard.getImageDataJson();
+        // return imgData;
+
+        var http = new XMLHttpRequest();
+        // http.onreadystatechange = function(){
+        //     if(this.readyState == 4 && this.status == 200){
+        //
+        //     }
+        // }
 
 
+    //
+    //
 
-
-
-        var w = window.open('about:blank'); //Firefox will not allow downloads without extra window
-        setTimeout(function () { //FireFox seems to require a setTimeout for this to work.
-            var a = document.createElement('a');
-            a.href = window.URL.createObjectURL(new Blob([imgData], { type: 'text/json' }));
-            a.download = 'whiteboard.json';
-            w.document.body.appendChild(a);
-            a.click();
-            w.document.body.removeChild(a);
-            setTimeout(function () { w.close(); }, 100);
-        }, 0);
+        // var w = window.open('about:blank'); //Firefox will not allow downloads without extra window
+        // setTimeout(function () { //FireFox seems to require a setTimeout for this to work.
+        //     var a = document.createElement('a');
+        //     a.href = window.URL.createObjectURL(new Blob([imgData], { type: 'text/json' }));
+        //     a.download = 'whiteboard.json';
+        //     w.document.body.appendChild(a);
+        //     a.click();
+        //     w.document.body.removeChild(a);
+        //     setTimeout(function () { w.close(); }, 100);
+        // }, 0);
     });
 
     $("#uploadWebDavBtn").click(function () {

@@ -109,10 +109,10 @@ class UserWhiteboardController extends Controller
     {
         //
 
-        $whiteboard = Whiteboard::find($id);
-        $content = $request->input('content');
-        $name = $request->input('user.name');
-        $whiteboard->content->update($content);
+//        $whiteboard = Whiteboard::find($id);
+//        $content = $request->input('content');
+//        $name = $request->input('user.name');
+//        $whiteboard->content->update($content);
 
     }
 

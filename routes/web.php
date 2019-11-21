@@ -54,6 +54,8 @@ Route::get('/showaccess', function(){
 
 Route::get('/verifytoken/{wid}/{wt}' , 'WhiteboardAccessController@verifyToken');
 
+Route::post('/getsaveddata' , 'WhiteboardAccessController@getSavedData');
+
 //Route::get('/testAccess', 'WhiteboardAccessController@testAccess');
 
 //
