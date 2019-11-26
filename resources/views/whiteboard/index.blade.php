@@ -4,6 +4,28 @@
 
 
     <h1>Whiteboards</h1>
+    <div style="float:right; padding-right: 50px" ><a href="{{route('whiteboard.create')}}">Create Board</a></div>
+
+    {!! Form::open(['method'=>'POST', 'action'=>'UserWhiteboardController@join']) !!}
+
+    {{csrf_field()}}
+
+    <div class="'form-group">
+
+        {!! Form::label('URL', 'URL:') !!}
+        {!! Form::text('url', null, ['class'=>'form-control'])!!}
+        {{--                {{csrf_field()}}--}}
+
+    </div>
+
+    {!! Form:: submit('Join Board', ['class'=>'btn btn-primary'])!!}
+    {{--        {{csrf_field()}}--}}
+    {!! Form::close() !!}
+
+
+
+
+
     <table class="table">
         <thead>
         <tr>
@@ -14,6 +36,8 @@
             <th>Board Owner</th>
             <th>Created</th>
             <th>Updated</th>
+            <th></th>
+
         </tr>
         </thead>
         <tbody>
@@ -22,14 +46,24 @@
             @foreach($whiteboards as $whiteboard)
 
 
+
                 <tr>
 
                     <td>{{$whiteboard->id}}</td>
-                    <td>{{$whiteboard->title}}</td>
+                    <td><a href="http://whiteboard.test:8090?whiteboardid={{$whiteboard->uuid}}&username={{$user->name}}">{{$whiteboard->title}}</a></td>
+{{--                    <td><a href="{{route('home.post', $post->id)}}">View Post</a></td>>--}}
                     <td>{{$whiteboard->content}}</td>
                     <td>{{$whiteboard->user->name}}</td>
                     <td>{{$whiteboard->created_at->diffForhumans()}}</td>
                     <td>{{$whiteboard->updated_at->diffForhumans()}}</td>
+                    <td><div class ="form-group">
+                            {!! Form::open(['method' => 'DELETE', 'onsubmit' => 'return confirm("Are you sure you want to delete this board?")', 'action'=> ['UserWhiteboardController@destroy', $whiteboard->id] ]) !!}
+
+                            {!! Form::submit('Remove board' , ['class' =>'btn btn-danger col-sm-6', 'onsubmit' => '']) !!}
+
+
+                            {!! Form::close() !!}
+                        </div></td>
 
 
 
@@ -39,6 +73,9 @@
 
                 @endforeach
             @endif
+
+
+
 
 {{--        @if($posts)--}}
 

@@ -39,6 +39,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('/whiteboard', 'UserWhiteboardController');
 
+Route::post('/whiteboard/join' , 'UserWhiteboardController@join');
+
 Route::get('/showaccess', function(){
 
     $user = User::find(1);
@@ -82,5 +84,9 @@ Route::post('/getsaveddata' , 'WhiteboardAccessController@getSavedData');
 //Route::get('/test', function(){
 //    return "show testing message";
 //});
+
+Route::get('/getuuid' , 'WhiteboardAccessController@uuid');
+
+
 
 

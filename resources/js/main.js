@@ -45,7 +45,7 @@ signaling_socket.on('connect', function () {
         whiteboard.updateSmallestScreenResolution(widthHeight["w"], widthHeight["h"]);
     });
 
-    signaling_socket.emit('joinWhiteboard', { wid: whiteboardId, at: accessToken, windowWidthHeight: { w: $(window).width(), h: $(window).height() } });
+    signaling_socket.emit('joinWhiteboard', { wid: whiteboardId, at: accessToken,   windowWidthHeight: { w: $(window).width(), h: $(window).height() } });
 });
 
 $(document).ready(function () {
@@ -84,12 +84,12 @@ $(document).ready(function () {
 
 
     //request whiteboard from server
-    $.get(subdir + "/loadwhiteboard", { wid: whiteboardId, wt: whiteboardToken }).done(function (data) {
+    $.get(subdir + "/loadwhiteboard", { wid: whiteboardId, at: accessToken }).done(function (data) {
         whiteboard.loadData(data)
     });
 
     $(window).resize(function () {
-        signaling_socket.emit('updateScreenResolution', { at: accessToken, windowWidthHeight: { w: $(window).width(), h: $(window).height() } });
+        signaling_socket.emit('updateScreenResolution', { at: accessToken,  windowWidthHeight: { w: $(window).width(), h: $(window).height() } });
     })
 
     /*----------------/
@@ -177,12 +177,24 @@ $(document).ready(function () {
         }, 0);
     });
 
+   $("#saveIntoDatabase").click(function () {
+       const formData = whiteboard.getImageDataJson();
+       // const headers = {
+       //     'Content-Type': 'application/json'}
+       //
+       const axios = require('axios');
+       axios.post('http://whiteboard.test:3000/getsaveddata', formData)
+           .then(resp => console.log(resp))
+           .catch(error => console.log(error));
+
+   });
+
     // save image to json containing steps
     $("#saveAsJSONBtn").click(function () {
         var imgData = whiteboard.getImageDataJson();
         // return imgData;
 
-        var http = new XMLHttpRequest();
+        // var http = new XMLHttpRequest();
         // http.onreadystatechange = function(){
         //     if(this.readyState == 4 && this.status == 200){
         //

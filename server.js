@@ -3,6 +3,8 @@ var accessToken = ""; //Can be set here or as start parameter (node server.js --
 var whiteboardToken ="abc"; //abcdef
 var disableSmallestScreen = false; //Can be set to true if you dont want to show (node server.js --disablesmallestscreen=true)
 var webdav = false; //Can be set to true if you want to allow webdav save (node server.js --webdav=true)
+var wt = "";
+
 
 var fs = require("fs-extra");
 var express = require('express'), blade = require('blade'); //add
@@ -12,6 +14,7 @@ const createDOMPurify = require('dompurify'); //Prevent xss
 const { JSDOM } = require('jsdom');
 const window = (new JSDOM('')).window;
 const DOMPurify = createDOMPurify(window);
+
 
 const { createClient } = require("webdav");
 
@@ -40,7 +43,7 @@ app.get('/', function(req, res){
 
     exec("wget -q -O - http://whiteboard.test:3000/show",
         function (error, stdout, stderr) {res.send(stdout);
-    });
+        });
 });
 
 
@@ -96,40 +99,41 @@ if (webdav) {
 app.get('/loadwhiteboard', function (req, res) {
     var wid = req["query"]["wid"];
     var at = req["query"]["at"];//accesstoken
-    var wt = req["query"]["wt"];
+    wt = req["query"]["wt"];
 
-    const axios = require('axios');
-    // import axios from 'axios';
-    axios.get('http://whiteboard.test:3000/verifytoken/'+ wid +'/' + wt)
-    // axios.get('http://whiteboard.test:3000/verifytoken?whiteboardid='+ wid +'&whiteboardtoken=' + wt)
-        .then(function (response) {
-            console.log(response.data);
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
+    // const axios = require('axios');
+    // // import axios from 'axios';
+    // axios.get('http://whiteboard.test:3000/verifytoken/'+ wid +'/' + wt)
+    // // axios.get('http://whiteboard.test:3000/verifytoken?whiteboardid='+ wid +'&whiteboardtoken=' + wt)
+    //     .then(function (response) {
+    //         // console.log(response.data);
+    //
+    //
+    //     })
+    //     .catch(function (error) {
+    //         console.log(error);
+    //     })
 
 
     if (accessToken === "" || accessToken == at) {
-        if(whiteboardToken == wt){
             var ret = s_whiteboard.loadStoredData(wid);
             res.send(ret);
             console.log(ret); //abcdef
 
-            // params = ret;
-            // const headers = {
-            //     'Content-Type': 'application/json'}
-            //
-            // axios.post('http://whiteboard.test:3000/getsaveddata', params,{
-            //     headers : headers
-            // })
+            // const formData = ret;
+            // // const headers = {
+            // //     'Content-Type': 'application/json'}
+            // //
+            // const axios = require('axios');
+            // axios.post('http://whiteboard.test:3000/getsaveddata', formData)
             //     .then(resp => console.log(resp))
             //     .catch(error => console.log(error));
 
 
             res.end();
 
-        }
+
+
 
     } else {
         res.status(401);  //Unauthorized
@@ -276,8 +280,9 @@ io.on('connection', function (socket) {
     socket.on('drawToWhiteboard', function (content) {
         content = escapeAllContentStrings(content);
         if (accessToken === "" || accessToken == content["at"]) {
-            socket.broadcast.to(whiteboardId).emit('drawToWhiteboard', content); //Send to all users in the room (not own socket)
-            s_whiteboard.handleEventsAndData(content); //save whiteboardchanges on the server
+
+                socket.broadcast.to(whiteboardId).emit('drawToWhiteboard', content); //Send to all users in the room (not own socket)
+                s_whiteboard.handleEventsAndData(content); //save whiteboardchanges on the server
 
 
 
@@ -312,11 +317,16 @@ io.on('connection', function (socket) {
     socket.on('joinWhiteboard', function (content) {
         content = escapeAllContentStrings(content);
         if (accessToken === "" || accessToken == content["at"]) {
-            whiteboardId = content["wid"];
-            socket.join(whiteboardId); //Joins room name=wid
-            smallestScreenResolutions[whiteboardId] = smallestScreenResolutions[whiteboardId] ? smallestScreenResolutions[whiteboardId] : {};
-            smallestScreenResolutions[whiteboardId][socket.id] = content["windowWidthHeight"] || { w: 10000, h: 10000 };
-            sendSmallestScreenResolution();
+
+                whiteboardId = content["wid"];
+                socket.join(whiteboardId); //Joins room name=wid
+                smallestScreenResolutions[whiteboardId] = smallestScreenResolutions[whiteboardId] ? smallestScreenResolutions[whiteboardId] : {};
+                smallestScreenResolutions[whiteboardId][socket.id] = content["windowWidthHeight"] || {
+                    w: 10000,
+                    h: 10000
+                };
+                sendSmallestScreenResolution();
+
         } else {
             socket.emit('wrongAccessToken', true);
         }
@@ -325,8 +335,13 @@ io.on('connection', function (socket) {
     socket.on('updateScreenResolution', function (content) {
         content = escapeAllContentStrings(content);
         if (accessToken === "" || accessToken == content["at"]) {
-            smallestScreenResolutions[whiteboardId][socket.id] = content["windowWidthHeight"] || { w: 10000, h: 10000 };
-            sendSmallestScreenResolution();
+            // if(whiteboardToken == wt) {
+                smallestScreenResolutions[whiteboardId][socket.id] = content["windowWidthHeight"] || {
+                    w: 10000,
+                    h: 10000
+                };
+                sendSmallestScreenResolution();
+            // }
         }
     });
 

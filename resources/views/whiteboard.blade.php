@@ -1,13 +1,17 @@
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
+
 <head>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Online Whiteboard</title>
 
     <!--- JS References -!-->
 {{--    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.dev.js"></script>--}}
 {{--    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>--}}
 {{--    <script type="text/javascript" src="./js/require.js"></script>--}}
+
     <script type="text/javascript" src="./js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="./js/jquery-ui.min.js"></script>
     <script type="text/javascript" src="./js/fontawseome5.8.1.min.js"></script>
@@ -25,7 +29,18 @@
 
 </head>
 
+
 <body style="position: relative; margin: 0px; height: 100vh; width: 100%; overflow: hidden;">
+
+<div style="float: right">
+    Name:
+    <br>
+    Title:
+    <br>
+    Whiteboard ID:
+
+</div>
+<div>
 <!---Whiteboard container -!-->
 <div style="height: 100vh; width: 100%;" id="whiteboardContainer"></div>
 
@@ -103,6 +118,12 @@
             <i style="position: absolute; top: 3px; left: 2px; color: #000000; font-size: 0.5em; "
                class="fas fa-save"></i>
         </button>
+        <button style="position: relative;" id="saveIntoDatabase" title="Save into database" type="button"
+                class="whiteboardBtn">
+            <i class="fas fa-database"></i>
+            <i style="position: absolute; top: 3px; left: 2px; color: #000000; font-size: 0.5em; "
+               class="fas fa-database"></i>
+        </button>
         <button style="position: relative; display: none;" id="uploadWebDavBtn" title="Save whiteboard to webdav"
                 type="button" class="whiteboardBtn">
 
@@ -139,6 +160,9 @@
             <i id="maxBtn" style="position:relative; left:-5px; display: none;" class="fas fa-angle-right"></i>
         </button>
     </div>
+
+</div>
 </body>
 
 </html>
+

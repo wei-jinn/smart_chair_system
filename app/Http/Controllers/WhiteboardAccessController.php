@@ -6,6 +6,7 @@ use App\User;
 use App\Whiteboard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use function GuzzleHttp\Psr7\copy_to_string;
 
 class WhiteboardAccessController extends Controller
@@ -19,7 +20,8 @@ class WhiteboardAccessController extends Controller
         $whiteboard = Whiteboard::find($wid);
 //        $username = User::find(Auth::user()->getAuthIdentifier())->name;
 //        $username = Sentry::getUser()->id;
-        if($whiteboard->token == $wt){
+        $wtoken = $whiteboard->token;
+        if($wtoken == $wt){
             $access = true;
         }
 
@@ -29,16 +31,21 @@ class WhiteboardAccessController extends Controller
 
         if($access){
 
-
             return response()->json(
                 collect([
                     'access' => 'true',
-                    'username' => 'successful',
+                    'token' => $wtoken
+
                 ])
             );
         }
         else{
-            return "false";
+            return response()->json(
+                collect([
+                    'access' => 'false'
+
+                ])
+            );
         }
 
 
@@ -50,14 +57,22 @@ class WhiteboardAccessController extends Controller
         return "Test Whiteboard Access Controller";
     }
 
-    public function getSavedData(Request $request){
+    public function getSavedData(Request $data){
 
-        if($request){
-            return "Request sent is not null";
+        if($data){
+            return $data->all();
         }
         else{
             return "request sent failed";
         }
+
+    }
+
+    public function uuid(){
+
+        $str = (string) Str::uuid();
+        $trimmed = $string = str_replace('-', '', $str);
+        return $trimmed;
 
     }
 

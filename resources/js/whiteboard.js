@@ -734,6 +734,7 @@ var whiteboard = {
 			_this.drawBuffer.push(content);
 		}
 	},
+
 	userLeftWhiteboard(username) {
 		this.cursorContainer.find("." + username).remove();
 	},
@@ -779,6 +780,7 @@ var whiteboard = {
 		var url = copyCanvas.toDataURL();
 		return url;
 	},
+
 	getImageDataJson() {
 		var sendObj = [];
 		for (var i = 0; i < this.drawBuffer.length; i++) {

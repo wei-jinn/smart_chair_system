@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Photo;
 use App\User;
 use App\Whiteboard;
+
 use Illuminate\Http\Request;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class UserWhiteboardController extends Controller
@@ -18,15 +20,16 @@ class UserWhiteboardController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
         //
         $user = Auth::user();
         $uid = $user->getAuthIdentifier();
-        $whiteboards = User::find($uid)->whiteboards()->orderBy('created_at')->get();
+        $whiteboards = User::find($uid)->access_whiteboards()->orderBy('created_at')->get();
 
 
-        return view('whiteboard.index', compact('whiteboards'));
+        return view('whiteboard.index', compact('whiteboards', 'user', 'uid'));
     }
 
     /**
@@ -56,18 +59,36 @@ class UserWhiteboardController extends Controller
         $input = $request->all();
         $user = Auth::user();
         $user->whiteboards()->create($input);
-        $uid = $user->getAuthIdentifier();
-        $whiteboard = User::find($uid)->whiteboards()->orderBy('created_at', 'desc')->FirstOrFail();
-        $wid =  $whiteboard->id;
-        $username = User::find($uid)->name;
-        $token = Str::random(80);
-        $whiteboard->token = $token;
-        $whiteboard->save();
-        $params = [
-            'whiteboardid' => $wid,
-            'username' => $username,
-            'whiteboardtoken' => $token
 
+        $uid = $user->getAuthIdentifier();
+        $username = User::find($uid)->name;
+
+        $whiteboard = User::find($uid)->whiteboards()->orderBy('created_at', 'desc')->FirstOrFail();
+        $uuid = (string) Str::uuid();
+        $whiteboard->uuid = str_replace('-', '', $uuid);
+
+        $whiteboard->save();
+
+
+        DB::table('user_whiteboard')->insert(
+            ['user_id' => $uid, 'whiteboard_id' => $whiteboard->id]
+        );
+
+
+
+
+//        $user->access_whiteboards()->create($input);
+
+        //to be sent to blade
+        $wid =  $whiteboard->id;
+        $title = $whiteboard->title;
+
+
+
+
+        $params = [
+            'whiteboardid' => $whiteboard->uuid,
+            'username' => $username,
         ];
 
         $query = http_build_query($params);
@@ -125,6 +146,62 @@ class UserWhiteboardController extends Controller
     public function destroy($id)
     {
         //
+
+        $uid = Auth::user()->getAuthIdentifier();
+//        $whiteboard = Whiteboard::find($id);
+
+
+        $whiteboard = DB::table('user_whiteboard')
+            ->where([
+                ['whiteboard_id', '=', $id],
+                ['user_id', '=', $uid],
+            ])->delete();
+
+        return redirect('/whiteboard');
+    }
+
+    public function join(Request $request)
+    {
+        //Handle exception id of non object is not found.
+        try{
+            $uid = Auth::user()->getAuthIdentifier();
+            $username = User::find($uid)->name;
+            $url = $request->input('url');
+            $equalsign =  stripos($url, "=");
+            $whiteboard_uuid = substr($url,$equalsign+1, 32);
+            $whiteboard = Whiteboard::where('uuid', $whiteboard_uuid)->first();
+            $whiteboardid = $whiteboard->id;
+
+            $record =  DB::table('user_whiteboard')
+                ->where([
+                    ['whiteboard_id', '=', $whiteboardid],
+                    ['user_id', '=', $uid],
+                ])->get();
+
+            $params = [
+                'whiteboardid' => $whiteboard_uuid,
+                'username' => $username,
+            ];
+
+            $query = http_build_query($params);
+
+
+            if($record !=null){
+//            return redirect('http://whiteboard.test:8090?'.$query);
+                return "record exits!";
+            }
+            else{
+                DB::table('user_whiteboard')->insert(
+                    ['user_id' => $uid, 'whiteboard_id' => $whiteboardid]
+                );
+//            return redirect('http://whiteboard.test:8090?'.$query);
+                return "record does not exist, please add one.";
+            }
+        }catch(Exception $e){
+            echo "Failed to join.";
+        }
+
+
     }
 
 //    public function getGuzzleRequest()

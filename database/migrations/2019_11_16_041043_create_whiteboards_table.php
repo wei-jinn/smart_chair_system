@@ -15,6 +15,7 @@ class CreateWhiteboardsTable extends Migration
     {
         Schema::create('whiteboards', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('uuid')->nullable()->index()->unique();
             $table->string('title');
             $table->json('content')->nullable();
             $table->integer('user_id')->unsigned()->nullable()->index();
