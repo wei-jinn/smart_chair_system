@@ -37,7 +37,9 @@
     <br>
     Title:
     <br>
-    Whiteboard ID:
+    Whiteboard IDddddd:
+
+    Token = {{csrf_token()}}
 
 </div>
 <div>

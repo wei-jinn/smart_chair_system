@@ -37,6 +37,7 @@
             <th>Created</th>
             <th>Updated</th>
             <th></th>
+            <th></th>
 
         </tr>
         </thead>
@@ -56,15 +57,25 @@
                     <td>{{$whiteboard->user->name}}</td>
                     <td>{{$whiteboard->created_at->diffForhumans()}}</td>
                     <td>{{$whiteboard->updated_at->diffForhumans()}}</td>
+
+                    @if($whiteboard->user->id == $uid)
                     <td><div class ="form-group">
-                            {!! Form::open(['method' => 'DELETE', 'onsubmit' => 'return confirm("Are you sure you want to delete this board?")', 'action'=> ['UserWhiteboardController@destroy', $whiteboard->id] ]) !!}
-
-                            {!! Form::submit('Remove board' , ['class' =>'btn btn-danger col-sm-6', 'onsubmit' => '']) !!}
-
-
+                            {!! Form::open(['method' => 'DELETE', 'onsubmit' => 'return confirm("Are you sure you want to destroy this board? The people whom you shared with would not be able to join this board too.")', 'action'=> ['UserWhiteboardController@destroy', $whiteboard->id] ]) !!}
+                            {!! Form::submit('Destroy board' , ['class' =>'btn btn-danger col-sm-6', 'onsubmit' => '']) !!}
                             {!! Form::close() !!}
                         </div></td>
+                        @else
+                        <td>
+                            <div class ="form-group">
+                                {!! Form::open(['method' => 'DELETE', 'onsubmit' => 'return confirm("Are you sure you want to remove this board from list?")', 'action'=> ['UserWhiteboardController@destroy', $whiteboard->id] ]) !!}
+                                {!! Form::submit('Remove from list' , ['class' =>'btn btn-danger col-sm-6', 'onsubmit' => '']) !!}
+                                {!! Form::close() !!}
+                            </div>
+                        </td>
 
+                        @endif
+
+                    <td><a href="{{route('whiteboard.viewmembers', $whiteboard->id)}}">View Members</a></td>
 
 
                 </tr>

@@ -46,6 +46,16 @@ class UserWhiteboardController extends Controller
 
     }
 
+    public function viewmembers($id)
+    {
+        $members = Whiteboard::find($id)->access_users()->get();
+        $whiteboard = Whiteboard::find($id);
+//
+//        $whiteboards = User::find($uid)->orderBy('created_at')->get();
+        return view('whiteboard.viewmembers' , compact('members', 'whiteboard') );
+    }
+
+
     /**
      * Store a newly created resource in storage.
      *
@@ -108,20 +118,21 @@ class UserWhiteboardController extends Controller
         //
     }
 
-    /**
+    /**z
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function edit($id)
     {
         //
+
     }
 
     /**
-     * Update the specified resource in storage.
-     *
+     * Update the specified resource in storage
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -148,10 +159,21 @@ class UserWhiteboardController extends Controller
         //
 
         $uid = Auth::user()->getAuthIdentifier();
-//        $whiteboard = Whiteboard::find($id);
 
 
-        $whiteboard = DB::table('user_whiteboard')
+        $whiteboard = Whiteboard::find($id);
+        if($whiteboard->user_id == $uid){
+            $whiteboard->delete();
+
+            $access_whiteboard = DB::table('user_whiteboard')
+                ->where([
+                    ['whiteboard_id', '=', $id],
+                ])->delete();
+
+        }
+
+
+        $access_whiteboard = DB::table('user_whiteboard')
             ->where([
                 ['whiteboard_id', '=', $id],
                 ['user_id', '=', $uid],
@@ -170,39 +192,51 @@ class UserWhiteboardController extends Controller
             $equalsign =  stripos($url, "=");
             $whiteboard_uuid = substr($url,$equalsign+1, 32);
             $whiteboard = Whiteboard::where('uuid', $whiteboard_uuid)->first();
-            $whiteboardid = $whiteboard->id;
 
-            $record =  DB::table('user_whiteboard')
-                ->where([
-                    ['whiteboard_id', '=', $whiteboardid],
-                    ['user_id', '=', $uid],
-                ])->get();
-
-            $params = [
-                'whiteboardid' => $whiteboard_uuid,
-                'username' => $username,
-            ];
-
-            $query = http_build_query($params);
+            if($whiteboard!=null){
+                $whiteboardid = $whiteboard->id;
 
 
-            if($record !=null){
-//            return redirect('http://whiteboard.test:8090?'.$query);
-                return "record exits!";
+
+                $record =  DB::table('user_whiteboard')
+                    ->where([
+                        ['whiteboard_id', '=', $whiteboardid],
+                        ['user_id', '=', $uid],
+                    ])->first();
+
+                $params = [
+                    'whiteboardid' => $whiteboard_uuid,
+                    'username' => $username,
+                ];
+
+                $query = http_build_query($params);
+
+
+                if($record){
+            return redirect('http://whiteboard.test:8090?'.$query);
+
+                }
+                else{
+                    DB::table('user_whiteboard')->insert(
+                        ['user_id' => $uid, 'whiteboard_id' => $whiteboardid]
+                    );
+            return redirect('http://whiteboard.test:8090?'.$query);
+
+                }
+
+            }else{
+                return "The whiteboord is not found";
             }
-            else{
-                DB::table('user_whiteboard')->insert(
-                    ['user_id' => $uid, 'whiteboard_id' => $whiteboardid]
-                );
-//            return redirect('http://whiteboard.test:8090?'.$query);
-                return "record does not exist, please add one.";
-            }
+
+
         }catch(Exception $e){
             echo "Failed to join.";
         }
 
 
     }
+
+
 
 //    public function getGuzzleRequest()
 //    {

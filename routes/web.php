@@ -41,6 +41,12 @@ Route::resource('/whiteboard', 'UserWhiteboardController');
 
 Route::post('/whiteboard/join' , 'UserWhiteboardController@join');
 
+Route::get('/whiteboard/viewmembers/{id}' , 'UserWhiteboardController@viewmembers')->name('whiteboard.viewmembers');
+
+Route::get('/test' , 'UserWhiteboardController@test')->name('test');
+
+
+
 Route::get('/showaccess', function(){
 
     $user = User::find(1);
