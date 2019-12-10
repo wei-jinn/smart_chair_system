@@ -45,4 +45,8 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Whiteboard');
     }
 
+    public function faces(){
+        return $this->hasMany('App\Face');
+    }
+
 }

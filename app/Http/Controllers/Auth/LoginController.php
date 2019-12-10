@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
+// The path below is where AuthenticatesUsers.php stored.
+///opt/lampp/htdocs/whiteboard_laravel/vendor/laravel/framework/src/Illuminate/Foundation/Auth/AuthenticatesUsers.php
+
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
