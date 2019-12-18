@@ -35,6 +35,7 @@ button::-moz-focus-inner {
 
 .btn-group button:hover {
     background-color: #9a9a9a;
+    color: white;
 }
 
 button {

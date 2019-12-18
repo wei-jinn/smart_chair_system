@@ -39,7 +39,7 @@ var exec = require("child_process").exec;
 // app.get('/', function(req, res){exec("wget -q -O - http://whiteboard.test:3000/show", function (error, stdout, stderr) {res.send(stdout);});});
 app.get('/', function(req, res){
 
-    exec("wget -q -O - http://whiteboard.test:3000/show",
+    exec("wget -q -O - http://127.0.0.1:8000/show",
         function (error, stdout, stderr) {
             res.send(stdout);
             console.log(req);

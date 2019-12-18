@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFacesTable extends Migration
+class CreateAttendancesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateFacesTable extends Migration
      */
     public function up()
     {
-        Schema::create('faces', function (Blueprint $table) {
+        Schema::create('attendances', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('face_id')->unique();
-            $table->integer('user_id');
+            $table->string('student_id');
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ class CreateFacesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('faces');
+        Schema::dropIfExists('attendances');
     }
 }

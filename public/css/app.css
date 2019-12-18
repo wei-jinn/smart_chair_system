@@ -1,6 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito);@charset "UTF-8";
 
-/*!
+/*/
  * Bootstrap v4.3.1 (https://getbootstrap.com/)
  * Copyright 2011-2019 The Bootstrap Authors
  * Copyright 2011-2019 Twitter, Inc.
@@ -85,7 +85,11 @@ hr {
   overflow: visible;
 }
 
-h1,
+h1{
+
+    margin-left: 15px;
+}
+
 h2,
 h3,
 h4,
@@ -2112,7 +2116,7 @@ pre code {
 
 .form-control {
   display: block;
-  width: 100%;
+  width: 80%;
   height: calc(1.6em + 0.75rem + 2px);
   padding: 0.375rem 0.75rem;
   font-size: 0.9rem;
@@ -2126,6 +2130,26 @@ pre code {
   -webkit-transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
+
+.url-control {
+    display: inline;
+    width: 70%;
+    height: calc(1.6em + 0.75rem + 2px);
+    padding: 0.375rem 0.75rem;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    font-size: 0.9rem;
+    font-weight: 400;
+    line-height: 1.6;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    -webkit-transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
 
 @media (prefers-reduced-motion: reduce) {
   .form-control {
@@ -2710,7 +2734,8 @@ textarea.form-control.is-invalid {
 }
 
 .btn:hover {
-  color: #212529;
+  /*color: #212529;*/
+    background-color: #ED574D;
   text-decoration: none;
 }
 
@@ -2964,9 +2989,23 @@ fieldset:disabled a.btn {
   border-color: #f8f9fa;
 }
 
+.btn-light-white {
+    color: #212529;
+    background-color: #f8f9fa;
+    border-color: #f8f9fa;
+}
+
+.btn-light-white:hover {
+    color: #212529;
+    background-color: #B9B5B5;
+    border-color: #f8f9fa;
+}
+
 .btn-light:hover {
-  color: #212529;
-  background-color: #e2e6ea;
+  /*color: #212529;*/
+    color: #e9ecef;
+  /*background-color: #EA4439;*/
+    background-color: #db2e3f;
   border-color: #dae0e5;
 }
 

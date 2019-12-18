@@ -1,7 +1,9 @@
 
 var whiteboardId = getQueryVariable("whiteboardid");
 whiteboardId = whiteboardId || "myNewWhiteboard";
-var myUsername = getQueryVariable("username");
+var username = getQueryVariable("username");
+var myUsername = username.replace("_", " ");
+// var myUsername = "user";
 var accessToken = getQueryVariable("accesstoken");
 var whiteboardToken = getQueryVariable("whiteboardtoken");//abcdef
 myUsername = myUsername || "unknown" + (Math.random() + "").substring(2, 6);
@@ -126,17 +128,22 @@ $(document).ready(function () {
 
     // whiteboard clear button
     $("#whiteboardTrashBtn").click(function () {
-        $("#whiteboardTrashBtnConfirm").show().focus();
-    });
+        // $("#whiteboardTrashBtnConfirm").show().focus();
+        if (confirm("Clean up the whiteboard?")) {
+            whiteboard.clearWhiteboard();
+        } else {
 
-    $("#whiteboardTrashBtnConfirm").focusout(function () {
-        $(this).hide();
+        }
     });
-
-    $("#whiteboardTrashBtnConfirm").click(function () {
-        $(this).hide();
-        whiteboard.clearWhiteboard();
-    });
+    //
+    // $("#whiteboardTrashBtnConfirm").focusout(function () {
+    //     $(this).hide();
+    // });
+    //
+    // $("#whiteboardTrashBtnConfirm").click(function () {
+    //     $(this).hide();
+    //     whiteboard.clearWhiteboard();
+    // });
 
     // undo button
     $("#whiteboardUndoBtn").click(function () {
@@ -192,6 +199,43 @@ $(document).ready(function () {
     // save image to json containing steps
     $("#saveAsJSONBtn").click(function () {
         var imgData = whiteboard.getImageDataJson();
+
+        //
+        // $.ajax({
+        //     headers: {
+        //         Accept : "text/plain; charset=utf-8",
+        //         "Content-Type": "text/plain; charset=utf-8"
+        //     },
+        //     type: "POST",
+        //     url: "http://127.0.0.1:8000/whiteboard/savejson",
+        //     data: "imgData",
+        //     success : function(response) {
+        //     alert("Successfully saved");
+        //     }
+        // });
+
+        // var xhttp = new XMLHttpRequest();
+        // xhttp.onreadystatechange = function() {
+        //     if (this.readyState == 4 && this.status == 200) {
+        //             alert("Successful");
+        //     }
+        // };
+        // xhttp.open("POST", "http://127.0.0.1:8000/whiteboard/savejson", true);
+        // xhttp.setRequestHeader("Content-type", "application/json");
+        // xhttp.send(imgData);
+
+
+        // alert("Save JSON file");
+
+        // $.post("http://127.0.0.1:8000/whiteboard/savejson",
+        //     {
+        //         uuid: whiteboardId,
+        //         content: imgData
+        //     },
+        //     function(data,status){
+        //         alert("\nStatus: " + status);
+        //     });
+
         // return imgData;
 
         // var http = new XMLHttpRequest();

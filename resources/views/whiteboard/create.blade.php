@@ -10,18 +10,18 @@
         {{csrf_field()}}
         <div class="'form-group">
 
-            {!! Form::label('title', 'Title:') !!}
-            {!! Form::text('title', null, ['class'=>'form-control'])!!}
+            {!! Form::label('title', 'Title:', ['style'=>'margin:20px']) !!}
+            {!! Form::text('title', null, ['class'=>'url-control'])!!}
 
 
-            <br>
-        </div>
 
 
-        {!! Form:: submit('Create Board', ['class'=>'btn btn-primary'])!!}
+
+
+        {!! Form:: submit('Create Board', ['class'=>'btn btn-success', 'style'=>'margin:20px'])!!}
 
         {!! Form::close() !!}
-    </div>
+
 
 {{--    @include('includes.form_error')--}}
 

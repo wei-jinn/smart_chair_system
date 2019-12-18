@@ -36,16 +36,22 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-
+Route::post('/whiteboard/savejson' , 'UserWhiteboardController@saveJson');
+Route::get('/whiteboard/getcontent/{content}' , 'UserWhiteboardController@getContent');
+Route::post('/whiteboard/join' , 'UserWhiteboardController@join');
+Route::get('/whiteboard/viewmembers/{id}' , 'UserWhiteboardController@viewmembers')->name('whiteboard.viewmembers');
+Route::get('/test' , 'UserWhiteboardController@test')->name('test');
 Route::resource('/whiteboard', 'UserWhiteboardController');
 
-Route::post('/whiteboard/join' , 'UserWhiteboardController@join');
 
-Route::get('/whiteboard/viewmembers/{id}' , 'UserWhiteboardController@viewmembers')->name('whiteboard.viewmembers');
+Route::get('/face/informerror' , 'FaceModelController@informerror');
+Route::get('/face/addface' , 'FaceModelController@addFace')->name('face.addface');
+// if you want to add functions to resource controller, add the particular route before the resource defined route.
+Route::resource('/face', 'FaceModelController');
 
-Route::get('/test' , 'UserWhiteboardController@test')->name('test');
+Route::resource('/login/attempt', 'LoginAttemptController');
 
-
+Route::resource('/attendance', 'AttendanceController');
 
 Route::get('/showaccess', function(){
 

@@ -26,10 +26,13 @@ class UserWhiteboardController extends Controller
         //
         $user = Auth::user();
         $uid = $user->getAuthIdentifier();
+        $uname = User::find($uid)->name;
+        $username = str_replace(" ","_",$uname);
         $whiteboards = User::find($uid)->access_whiteboards()->orderBy('created_at')->get();
 
 
-        return view('whiteboard.index', compact('whiteboards', 'user', 'uid'));
+
+        return view('whiteboard.index', compact('whiteboards', 'user', 'uid','username'));
     }
 
     /**
@@ -71,7 +74,9 @@ class UserWhiteboardController extends Controller
         $user->whiteboards()->create($input);
 
         $uid = $user->getAuthIdentifier();
-        $username = User::find($uid)->name;
+        $uname = User::find($uid)->name;
+        $username = str_replace(" ","_",$uname);
+
 
         $whiteboard = User::find($uid)->whiteboards()->orderBy('created_at', 'desc')->FirstOrFail();
         $uuid = (string) Str::uuid();
@@ -102,7 +107,7 @@ class UserWhiteboardController extends Controller
         ];
 
         $query = http_build_query($params);
-        return redirect('http://whiteboard.test:8090?'.$query);
+        return redirect('http://127.0.0.1:8090?'.$query);
 
 
     }
@@ -187,7 +192,9 @@ class UserWhiteboardController extends Controller
         //Handle exception id of non object is not found.
         try{
             $uid = Auth::user()->getAuthIdentifier();
-            $username = User::find($uid)->name;
+
+            $uname = User::find($uid)->name;
+            $username = str_replace(" ","_",$uname);
             $url = $request->input('url');
             $equalsign =  stripos($url, "=");
             $whiteboard_uuid = substr($url,$equalsign+1, 32);
@@ -213,14 +220,14 @@ class UserWhiteboardController extends Controller
 
 
                 if($record){
-            return redirect('http://whiteboard.test:8090?'.$query);
+            return redirect('http://127.0.0.1:8090?'.$query);
 
                 }
                 else{
                     DB::table('user_whiteboard')->insert(
                         ['user_id' => $uid, 'whiteboard_id' => $whiteboardid]
                     );
-            return redirect('http://whiteboard.test:8090?'.$query);
+            return redirect('http://127.0.0.1:8090?'.$query);
 
                 }
 
@@ -234,6 +241,38 @@ class UserWhiteboardController extends Controller
         }
 
 
+    }
+
+    public function saveJson(Request $request)
+    {
+        //
+
+
+        $content = $request->get('data');
+        $user = Auth::user();
+
+
+//        $uid = $user->getAuthIdentifier();
+//        $uname = User::find($uid)->name;
+//        $username = str_replace(" ","_",$uname);
+//
+
+//        $whiteboard = User::find($uid)->whiteboards()->orderBy('created_at', 'desc')->FirstOrFail();
+        $whiteboard = Whiteboard::find(1);
+        $whiteboard->content = $content;
+
+        $whiteboard->save();
+
+
+//        $user->access_whiteboards()->create($input);
+
+    }
+
+    public function getContent($uuid){
+
+        $whiteboard = Whiteboard::where('uuid', $uuid)->first();
+
+        return $whiteboard->content;
     }
 
 

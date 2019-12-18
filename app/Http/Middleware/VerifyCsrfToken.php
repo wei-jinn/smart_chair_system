@@ -19,6 +19,11 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
+        '/login/attempt',
+        '/attendance',
+        '/login/attempt/{attempt}',
+        '/whiteboard/savejson',
+        '/whiteboard/getcontent/*'
         //
     ];
 }

@@ -4,23 +4,30 @@
 
 
     <h1>Whiteboards</h1>
-    <div style="float:right; padding-right: 50px" ><a href="{{route('whiteboard.create')}}">Create Board</a></div>
+  <a class="btn btn-success" style="float:right; margin-right: 10px; text-align: center" href="{{route('whiteboard.create')}}" role="button">Create new board</a>
 
     {!! Form::open(['method'=>'POST', 'action'=>'UserWhiteboardController@join']) !!}
 
+
+
+        {!! Form::text('url', null, ['placeholder' => 'Copy whiteboard url here then press join board', 'class'=>'url-control'])!!}
+        {{csrf_field()}}
+
+
+
+
+    {!! Form:: submit('Join Board', ['class'=>'btn btn-primary', 'style' => 'float:right;  margin-right: 10px' ])!!}
+            {{csrf_field()}}
+    {!! Form::close() !!}
+
+
+
     {{csrf_field()}}
 
-    <div class="'form-group">
 
-        {!! Form::label('URL', 'URL:') !!}
-        {!! Form::text('url', null, ['class'=>'form-control'])!!}
-        {{--                {{csrf_field()}}--}}
 
-    </div>
 
-    {!! Form:: submit('Join Board', ['class'=>'btn btn-primary'])!!}
-    {{--        {{csrf_field()}}--}}
-    {!! Form::close() !!}
+
 
 
 
@@ -32,7 +39,7 @@
             {{--            <th><input type ="checkbox" id="options"></th>--}}
             <th>ID</th>
             <th>Title</th>
-            <th>Content</th>
+{{--            <th>Content</th>--}}
             <th>Board Owner</th>
             <th>Created</th>
             <th>Updated</th>
@@ -51,31 +58,36 @@
                 <tr>
 
                     <td>{{$whiteboard->id}}</td>
-                    <td><a href="http://whiteboard.test:8090?whiteboardid={{$whiteboard->uuid}}&username={{$user->name}}">{{$whiteboard->title}}</a></td>
+                    <td><a href="http://127.0.0.1:8090?whiteboardid={{$whiteboard->uuid}}&username={{$username}}">{{$whiteboard->title}}</a></td>
 {{--                    <td><a href="{{route('home.post', $post->id)}}">View Post</a></td>>--}}
-                    <td>{{$whiteboard->content}}</td>
+{{--                    <td>{{$whiteboard->content}}</td>--}}
                     <td>{{$whiteboard->user->name}}</td>
                     <td>{{$whiteboard->created_at->diffForhumans()}}</td>
                     <td>{{$whiteboard->updated_at->diffForhumans()}}</td>
+                    <td>
+{{--                        <a href="{{route('whiteboard.viewmembers', $whiteboard->id)}}">View Members</a>--}}
+                        <a class="btn btn-light-white" href="{{route('whiteboard.viewmembers', $whiteboard->id)}}" role="button">View Members</a>
+
+                    </td>
 
                     @if($whiteboard->user->id == $uid)
                     <td><div class ="form-group">
                             {!! Form::open(['method' => 'DELETE', 'onsubmit' => 'return confirm("Are you sure you want to destroy this board? The people whom you shared with would not be able to join this board too.")', 'action'=> ['UserWhiteboardController@destroy', $whiteboard->id] ]) !!}
-                            {!! Form::submit('Destroy board' , ['class' =>'btn btn-danger col-sm-6', 'onsubmit' => '']) !!}
+                            {!! Form::submit('Destroy board' , ['class' =>'btn btn-danger', 'onsubmit' => '']) !!}
                             {!! Form::close() !!}
                         </div></td>
                         @else
                         <td>
                             <div class ="form-group">
                                 {!! Form::open(['method' => 'DELETE', 'onsubmit' => 'return confirm("Are you sure you want to remove this board from list?")', 'action'=> ['UserWhiteboardController@destroy', $whiteboard->id] ]) !!}
-                                {!! Form::submit('Remove from list' , ['class' =>'btn btn-danger col-sm-6', 'onsubmit' => '']) !!}
+                                {!! Form::submit('Remove from list' , ['class' =>'btn btn-danger', 'onsubmit' => '']) !!}
                                 {!! Form::close() !!}
                             </div>
                         </td>
 
                         @endif
 
-                    <td><a href="{{route('whiteboard.viewmembers', $whiteboard->id)}}">View Members</a></td>
+
 
 
                 </tr>

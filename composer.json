@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.2",
         "ext-json": "*",
+        "aws/aws-sdk-php": "^3.128",
         "fideloper/proxy": "^4.0",
         "guzzlehttp/guzzle": "^6.4",
         "laravel/framework": "^6.0",

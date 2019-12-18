@@ -156,23 +156,25 @@ $(document).ready(function () {
     $("#saveAsJSONBtn").click(function () {
         var imgData = whiteboard.getImageDataJson();
 
-        var w = window.open('about:blank'); //Firefox will not allow downloads without extra window
-        setTimeout(function () { //FireFox seems to require a setTimeout for this to work.
-            var a = document.createElement('a');
-            a.href = window.URL.createObjectURL(new Blob([imgData], { type: 'text/json' }));
-            a.download = 'whiteboard.json';
-            w.document.body.appendChild(a);
-            a.click();
-            w.document.body.removeChild(a);
-            setTimeout(function () { w.close(); }, 100);
-        }, 0);
+
+        //
+        // var w = window.open('about:blank'); //Firefox will not allow downloads without extra window
+        // setTimeout(function () { //FireFox seems to require a setTimeout for this to work.
+        //     var a = document.createElement('a');
+        //     a.href = window.URL.createObjectURL(new Blob([imgData], { type: 'text/json' }));
+        //     a.download = 'whiteboard.json';
+        //     w.document.body.appendChild(a);
+        //     a.click();
+        //     w.document.body.removeChild(a);
+        //     setTimeout(function () { w.close(); }, 100);
+        // }, 0);
     });
 
     $("#uploadWebDavBtn").click(function () {
         if ($(".webdavUploadBtn").length > 0) {
             return;
         }
-        
+
         var webdavserver = localStorage.getItem('webdavserver') || ""
         var webdavpath = localStorage.getItem('webdavpath') || "/"
         var webdavusername = localStorage.getItem('webdavusername') || ""

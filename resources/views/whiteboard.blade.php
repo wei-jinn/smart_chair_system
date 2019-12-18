@@ -21,44 +21,48 @@
 
     <script type="text/javascript" src="./js/whiteboard.js"></script>
     <script type="text/javascript" src="./js/main.js"></script>
+
 {{--    <script type="text/javascript" src=" /./server.js"></script>--}}
 
     <!--- CSS References -!-->
     <link rel="stylesheet" href="./css/jquery-ui.min.css">
     <link href="./css/main.css" rel="stylesheet">
 
+
 </head>
 
 
 <body style="position: relative; margin: 0px; height: 100vh; width: 100%; overflow: hidden;">
 
-<div style="float: right">
-    Name:
-    <br>
-    Title:
-    <br>
-    Whiteboard IDddddd:
+{{--<div style="display: block">--}}
+{{--    Name:--}}
+{{--    <br>--}}
+{{--    Title:--}}
+{{--    <br>--}}
+{{--    Whiteboard IDddddd:--}}
 
-    Token = {{csrf_token()}}
+{{--    Token = {{csrf_token()}}--}}
 
-</div>
+{{--</div>--}}
 <div>
 <!---Whiteboard container -!-->
-<div style="height: 100vh; width: 100%;" id="whiteboardContainer"></div>
+
+    <div style="height: 100vh; width: 100%;" id="whiteboardContainer"></div>
 
 <!---Toolbar -!-->
 <div id="toolbar" style="position: absolute; top: 10px; left: 10px;">
     <div class="btn-group">
-        <button id="whiteboardTrashBtn" title="Clear the whiteboard" type="button" class="whiteboardBtn">
-            <i class="fa fa-trash"></i>
+        <button id="putraFutureClassroom" title="Go to Main Menu" type="button" class="whiteboardBtn">
+            <a style="text-decoration:none" href="{{ url('/home')}} ">Main Menu</a>
         </button>
-        <button style="position:absolute; left:0px; top:0px; width: 46px; display:none;"
-                id="whiteboardTrashBtnConfirm" title="Confirm clear..." type="button" class="whiteboardBtn">
-            <i class="fa fa-check"></i>
+
+
+
+        <button id="whiteboardlist" title="Go to whiteboard list" type="button" class="whiteboardBtn">
+            <a style="text-decoration:none" href="{{ url('/whiteboard')}} ">Whiteboards</a>
         </button>
-        <button id="whiteboardUndoBtn" title="Undo your last step" type="button" class="whiteboardBtn">
-            <i class="fa fa-undo"></i>
-        </button>
+
+
     </div>
 
     <div class="btn-group">
@@ -87,6 +91,16 @@
         </button>
         <button tool="eraser" title="take the eraser" type="button" class="whiteboardTool">
             <i class="fa fa-eraser"></i>
+        </button>
+        <button id="whiteboardTrashBtn" title="Clean up the whiteboard" type="button" class="whiteboardBtn">
+            <i class="fa fa-trash"></i>
+        </button>
+        <button style="position:absolute; left:0px; top:0px; width: 46px; display:none;"
+                id="whiteboardTrashBtnConfirm" title="Confirm clear..." type="button" class="whiteboardBtn">
+            <i class="fa fa-check"></i>
+        </button>
+        <button id="whiteboardUndoBtn" title="Undo your last step" type="button" class="whiteboardBtn">
+            <i class="fa fa-undo"></i>
         </button>
     </div>
 
@@ -164,6 +178,8 @@
     </div>
 
 </div>
+</div>
+
 </body>
 
 </html>
