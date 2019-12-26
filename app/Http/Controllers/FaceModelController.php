@@ -144,6 +144,7 @@ class FaceModelController extends Controller
 //            echo "Face captured.";
 
         $capture = shell_exec('python3 /home/weijin/PycharmProjects/testhowdy/cli/captureface.py');
+//        $capture = shell_exec('python3 storage/whiteboard_laravel/public/testhowdy/cli/captureface.py');
 
 
             $userid = Auth::user()->getAuthIdentifier();
@@ -163,7 +164,8 @@ class FaceModelController extends Controller
         ];
 
 
-        $inputimg = "/home/weijin/PycharmProjects/testhowdy/cli/photo/addface.jpg";
+
+        $inputimg = "storage/testhowdy/cli/photo/addface.jpg";
 
         if(file_exists($inputimg)){
             $client = new RekognitionClient($args);
@@ -188,7 +190,7 @@ class FaceModelController extends Controller
             $face->user_id = $userid;
             $face->save();
 
-            print(" \n Your face model has been successfully added. Redirecting you to your face model list...");
+            print(" Dear " . $username . " \n, Your face model has been successfully added. Redirecting you to your face model list...");
 
         }
 

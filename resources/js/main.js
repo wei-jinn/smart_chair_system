@@ -32,7 +32,8 @@ signaling_socket.on('connect', function () {
         whiteboard.handleEventsAndData(content, true);
     });
 
-    signaling_socket.on('refreshUserBadges', function () {
+    signaling_socket.on('refresh' +
+        's', function () {
         whiteboard.refreshUserBadges();
     });
 
@@ -200,7 +201,7 @@ $(document).ready(function () {
     $("#saveAsJSONBtn").click(function () {
         var imgData = whiteboard.getImageDataJson();
 
-        //
+
         // $.ajax({
         //     headers: {
         //         Accept : "text/plain; charset=utf-8",
@@ -249,16 +250,16 @@ $(document).ready(function () {
     //
     //
 
-        // var w = window.open('about:blank'); //Firefox will not allow downloads without extra window
-        // setTimeout(function () { //FireFox seems to require a setTimeout for this to work.
-        //     var a = document.createElement('a');
-        //     a.href = window.URL.createObjectURL(new Blob([imgData], { type: 'text/json' }));
-        //     a.download = 'whiteboard.json';
-        //     w.document.body.appendChild(a);
-        //     a.click();
-        //     w.document.body.removeChild(a);
-        //     setTimeout(function () { w.close(); }, 100);
-        // }, 0);
+        var w = window.open('about:blank'); //Firefox will not allow downloads without extra window
+        setTimeout(function () { //FireFox seems to require a setTimeout for this to work.
+            var a = document.createElement('a');
+            a.href = window.URL.createObjectURL(new Blob([imgData], { type: 'text/json' }));
+            a.download = 'whiteboard.json';
+            w.document.body.appendChild(a);
+            a.click();
+            w.document.body.removeChild(a);
+            setTimeout(function () { w.close(); }, 100);
+        }, 0);
     });
 
     $("#uploadWebDavBtn").click(function () {

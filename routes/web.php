@@ -38,6 +38,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::post('/whiteboard/savejson' , 'UserWhiteboardController@saveJson');
 Route::get('/whiteboard/getcontent/{content}' , 'UserWhiteboardController@getContent');
+Route::get('/whiteboard/getip' , 'UserWhiteboardController@getIp');
 Route::post('/whiteboard/join' , 'UserWhiteboardController@join');
 Route::get('/whiteboard/viewmembers/{id}' , 'UserWhiteboardController@viewmembers')->name('whiteboard.viewmembers');
 Route::get('/test' , 'UserWhiteboardController@test')->name('test');
@@ -48,6 +49,8 @@ Route::get('/face/informerror' , 'FaceModelController@informerror');
 Route::get('/face/addface' , 'FaceModelController@addFace')->name('face.addface');
 // if you want to add functions to resource controller, add the particular route before the resource defined route.
 Route::resource('/face', 'FaceModelController');
+
+Route::resource('/emotion', 'EmotionController');
 
 Route::resource('/login/attempt', 'LoginAttemptController');
 

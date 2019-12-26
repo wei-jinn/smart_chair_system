@@ -4,7 +4,7 @@ var whiteboardToken ="abc"; //abcdef
 var disableSmallestScreen = false; //Can be set to true if you dont want to show (node server.js --disablesmallestscreen=true)
 var webdav = false; //Can be set to true if you want to allow webdav save (node server.js --webdav=true)
 var wt = "";
-
+var url = "http://127.0.0.1:8000/";
 
 var fs = require("fs-extra");
 var express = require('express'), blade = require('blade'); //add
@@ -39,7 +39,7 @@ var exec = require("child_process").exec;
 // app.get('/', function(req, res){exec("wget -q -O - http://whiteboard.test:3000/show", function (error, stdout, stderr) {res.send(stdout);});});
 app.get('/', function(req, res){
 
-    exec("wget -q -O - http://127.0.0.1:8000/show",
+    exec("wget -q -O - " + url + "show",
         function (error, stdout, stderr) {
             res.send(stdout);
             console.log(req);

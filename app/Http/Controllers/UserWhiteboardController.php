@@ -7,11 +7,14 @@ use App\User;
 use App\Whiteboard;
 
 use Illuminate\Http\Request;
+//use Request;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+
+
 
 class UserWhiteboardController extends Controller
 {
@@ -69,6 +72,9 @@ class UserWhiteboardController extends Controller
     {
         //
 
+        //php artisan serve --host 192.168.0.118 --port 8000
+        $url_1 =  "http://127.0.0.1:8090?";
+        $url_2 = "http://192.168.0.119:8090?";
         $input = $request->all();
         $user = Auth::user();
         $user->whiteboards()->create($input);
@@ -107,7 +113,7 @@ class UserWhiteboardController extends Controller
         ];
 
         $query = http_build_query($params);
-        return redirect('http://127.0.0.1:8090?'.$query);
+        return redirect( $url_1 . $query);
 
 
     }
@@ -189,6 +195,9 @@ class UserWhiteboardController extends Controller
 
     public function join(Request $request)
     {
+        $url_1 =  "http://127.0.0.1:8090?";
+        $url_2 = "http://192.168.0.119:8090?";
+
         //Handle exception id of non object is not found.
         try{
             $uid = Auth::user()->getAuthIdentifier();
@@ -220,14 +229,14 @@ class UserWhiteboardController extends Controller
 
 
                 if($record){
-            return redirect('http://127.0.0.1:8090?'.$query);
+            return redirect($url_1 . $query);
 
                 }
                 else{
                     DB::table('user_whiteboard')->insert(
                         ['user_id' => $uid, 'whiteboard_id' => $whiteboardid]
                     );
-            return redirect('http://127.0.0.1:8090?'.$query);
+            return redirect($url . $query);
 
                 }
 
@@ -275,6 +284,12 @@ class UserWhiteboardController extends Controller
         return $whiteboard->content;
     }
 
+
+    public static function getIp(){
+
+        echo url()->current();
+
+    }
 
 
 //    public function getGuzzleRequest()

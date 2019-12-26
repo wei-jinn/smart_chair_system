@@ -23,7 +23,8 @@ class VerifyCsrfToken extends Middleware
         '/attendance',
         '/login/attempt/{attempt}',
         '/whiteboard/savejson',
-        '/whiteboard/getcontent/*'
+        '/whiteboard/getcontent/*',
+        '/emotion'
         //
     ];
 }
