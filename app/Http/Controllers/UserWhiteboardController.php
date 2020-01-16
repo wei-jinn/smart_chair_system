@@ -73,8 +73,8 @@ class UserWhiteboardController extends Controller
         //
 
         //php artisan serve --host 192.168.0.118 --port 8000
-        $url_1 =  "http://127.0.0.1:8090?";
-        $url_2 = "http://192.168.0.119:8090?";
+//        $url_1 =  "http://127.0.0.1:8090?";
+        $url_1 = "http://192.168.43.101:8090?";
         $input = $request->all();
         $user = Auth::user();
         $user->whiteboards()->create($input);
@@ -195,8 +195,9 @@ class UserWhiteboardController extends Controller
 
     public function join(Request $request)
     {
-        $url_1 =  "http://127.0.0.1:8090?";
-        $url_2 = "http://192.168.0.119:8090?";
+//        $url_1 =  "http://127.0.0.1:8090?";
+        $url_1 = "http://192.168.43.101:8090?";
+
 
         //Handle exception id of non object is not found.
         try{

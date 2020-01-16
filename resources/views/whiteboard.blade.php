@@ -8,9 +8,9 @@
     <title>Online Whiteboard</title>
 
     <!--- JS References -!-->
-{{--    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.dev.js"></script>--}}
-{{--    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>--}}
-{{--    <script type="text/javascript" src="./js/require.js"></script>--}}
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.dev.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="text/javascript" src="./js/require.js"></script>
 
     <script type="text/javascript" src="./js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="./js/jquery-ui.min.js"></script>
@@ -22,7 +22,7 @@
     <script type="text/javascript" src="./js/whiteboard.js"></script>
     <script type="text/javascript" src="./js/main.js"></script>
 
-{{--    <script type="text/javascript" src=" /./server.js"></script>--}}
+    <script type="text/javascript" src=" /./server.js"></script>
 
     <!--- CSS References -!-->
     <link rel="stylesheet" href="./css/jquery-ui.min.css">
@@ -34,16 +34,16 @@
 
 <body style="position: relative; margin: 0px; height: 100vh; width: 100%; overflow: hidden;">
 
-{{--<div style="display: block">--}}
-{{--    Name:--}}
-{{--    <br>--}}
-{{--    Title:--}}
-{{--    <br>--}}
-{{--    Whiteboard IDddddd:--}}
+<div style="display: block">
+    Name:
+    <br>
+    Title:
+    <br>
+    Whiteboard IDddddd:
 
-{{--    Token = {{csrf_token()}}--}}
+    Token = {{csrf_token()}}
 
-{{--</div>--}}
+</div>
 <div>
 <!---Whiteboard container -!-->
 

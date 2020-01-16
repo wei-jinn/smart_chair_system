@@ -197,7 +197,7 @@ class FaceModelController extends Controller
         else {
             print $capture;
         }
-        header( "refresh:3 ; url=/face" );
+//        header( "refresh:3 ; url=/face" );
 
 
     }

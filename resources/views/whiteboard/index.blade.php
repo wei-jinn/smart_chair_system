@@ -58,7 +58,7 @@
                 <tr>
 
                     <td>{{$whiteboard->id}}</td>
-                    <td><a href="http://127.0.0.1:8090?whiteboardid={{$whiteboard->uuid}}&username={{$username}}">{{$whiteboard->title}}</a></td>
+                    <td><a href="http://192.168.43.101:8090?whiteboardid={{$whiteboard->uuid}}&username={{$username}}">{{$whiteboard->title}}</a></td>
 {{--                    <td><a href="{{route('home.post', $post->id)}}">View Post</a></td>>--}}
 {{--                    <td>{{$whiteboard->content}}</td>--}}
                     <td>{{$whiteboard->user->name}}</td>

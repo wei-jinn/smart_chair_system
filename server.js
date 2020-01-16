@@ -4,7 +4,16 @@ var whiteboardToken ="abc"; //abcdef
 var disableSmallestScreen = false; //Can be set to true if you dont want to show (node server.js --disablesmallestscreen=true)
 var webdav = false; //Can be set to true if you want to allow webdav save (node server.js --webdav=true)
 var wt = "";
-var url = "http://127.0.0.1:8000/";
+// var url = "http://127.0.0.1:8000/";
+var url = "http://192.168.43.101:8000/";
+// server.js
+// UserWhiteboardControllers@store
+// UserWhiteboardController@join
+// UserWhiteboardController@create
+// whiteboard.index
+//php artisan serve --host 192.168.0.118 --port 8000
+
+
 
 var fs = require("fs-extra");
 var express = require('express'), blade = require('blade'); //add
