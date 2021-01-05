@@ -38,7 +38,7 @@
     "license": "MIT",
     "private": true,
     "devDependencies": {
-        "axios": "^0.19.0",
+        "axios": "^0.21.1",
         "blade": "^3.3.1",
         "bootstrap": "^4.0.0",
         "cross-env": "^5.1",
